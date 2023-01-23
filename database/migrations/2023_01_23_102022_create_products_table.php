@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('slug', 255);
             $table->string('image')->nullable();
             $table->text('description')->nullable();
-            $table->integer('n_product')->unsigned()->nullable();
-            $table->float('price', 6, 2)->nullable();
+            $table->string('product_link')->nullable();
+            $table->float('price', 6, 2)->unsigned();
+            $table->boolean('available');
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('set null');
             $table->unsignedBigInteger('tag_id')->nullable();
