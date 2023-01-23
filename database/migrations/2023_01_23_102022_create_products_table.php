@@ -20,13 +20,13 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->text('description')->nullable();
             $table->integer('n_product')->unsigned()->nullable();
-            $table->float('price', 6.2)->nullable();
+            $table->float('price', 6, 2)->nullable();
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('set null');
-            $table->unsignedBigInteger('category_id')->nullable();
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
-            $table->unsignedBigInteger('texture_id')->nullable();
-            $table->foreign('texture_id')->references('id')->on('textures')->onDelete('set null');
+            $table->unsignedBigInteger('type_id')->nullable();
+            $table->foreign('type_id')->references('id')->on('types')->onDelete('set null');
+            $table->unsignedBigInteger('tag_id')->nullable();
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('set null');
             $table->timestamps();
         });
     }
