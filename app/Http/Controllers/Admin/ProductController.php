@@ -22,7 +22,6 @@ class ProductController extends Controller
     {
         $products = Product::all();
 
-        dd($products);
         return view('admin.products.index', compact('products'));
         
     }
