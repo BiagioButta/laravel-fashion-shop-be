@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
@@ -21,8 +22,8 @@ class Product extends Model
         return $this->belongsTo(Brand::class);
     }
 
-    public function tag():BelongsTo{
-        return $this->belongsTo(Tag::class);
+    public function tag():BelongsToMany{
+        return $this->belongsToMany(Tag::class);
     }
 
     public function type():BelongsTo{

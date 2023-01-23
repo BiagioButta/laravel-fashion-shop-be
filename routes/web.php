@@ -3,6 +3,10 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\TypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +35,11 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->name('admin.')->prefix('admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('products', ProductController::class)->parameters(['products' => 'product:slug']);
+
+    Route::resource('brands', BrandController::class)->parameters(['brands' => 'brand:slug'])->except('show','create','edit');
+    Route::resource('tags', TagController::class)->parameters(['tags' => 'tag:slug'])->except('show','create','edit');
+    Route::resource('types', TypeController::class)->parameters(['types' => 'type:slug'])->except('show','create','edit');
 });
 
 
