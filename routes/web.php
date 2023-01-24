@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\TagController;
-use App\Http\Controllers\Admin\TypeController;
+use App\Http\Controllers\Admin\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ Route::middleware(['auth', 'verified'])->name('admin.')->prefix('admin')->group(
 
     Route::resource('brands', BrandController::class)->parameters(['brands' => 'brand:slug'])->except('show','create','edit');
     Route::resource('tags', TagController::class)->parameters(['tags' => 'tag:slug'])->except('show','create','edit');
-    Route::resource('types', TypeController::class)->parameters(['types' => 'type:slug'])->except('show','create','edit');
+    Route::resource('categories', CategoryController::class)->parameters(['categories' => 'category:slug'])->except('show','create','edit');
 });
 
 

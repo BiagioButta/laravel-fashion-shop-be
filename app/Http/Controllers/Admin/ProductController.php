@@ -8,8 +8,10 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Tag;
-use App\Models\Type;
+use App\Models\Category;
+use App\Models\Texture;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -33,30 +35,35 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $types = Type::all();
-        $tags = Tag::all();
         $brands = Brand::all();
+        $textures = Texture::all();
+        $categories = Category::all();
 
-        return view('admin.products.create', compact('types', 'tags', 'brands'));
+        return view('admin.products.create', compact('brands', 'textures', 'categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreProductRequest  $request
      * 
      */
     public function store(StoreProductRequest $request)
     {
         $data = $request->validated();
-        $slug = Product::generateSlug($request->name);
-        $data['slug'] = $slug;
-        $new_product = Product::create($data);
 
-        if($request->has('tag_id')){
-            $new_product->tags()->attach($request->tags);
+        $slug = Product::generateSlug($request->name);
+
+        $data['slug'] = $slug;
+
+        if ($request->hasFile('image')) {
+            $path = Storage::disk('public')->put('images', $request->image);
+            $data['image'] = $path;
         }
 
+        $new_product = Product::create($data);
+
+       
         return redirect()->route('admin.products.show', $new_product->slug);
 
     }
@@ -81,10 +88,10 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $brands = Brand::all();
-        $tags = Tag::all();
-        $types = Type::all();
+        $textures = Texture::all();
+        $categories = Category::all();
 
-        return view('admin.products.edit', compact('product', 'brands', 'tags', 'types'));
+        return view('admin.products.edit', compact('product', 'brands', 'textures', 'categories'));
     }
 
     /**
@@ -101,13 +108,17 @@ class ProductController extends Controller
         $slug = Product::generateSlug($request->name);
         $data['slug'] = $slug;
 
+        if ($request->hasFile('image')) {
+            if ($product->image) {
+                Storage::delete($product->image);
+            }
+            $path = Storage::disk('public')->put('product_image', $request->image);
+            $data['image'] = $path;
+        }
+
         $product->update($data);
 
-        if($request->has('tag_id')){
-            $product->tags()->sync($request->tags);
-        } else {
-            $product->tags()->sync([]);
-        }
+        
 
         return redirect()->route('admin.products.index')->with('message', "$product->name updated successfully");
 

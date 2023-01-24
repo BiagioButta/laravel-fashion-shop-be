@@ -12,7 +12,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'image', 'description', 'n_product', 'price', 'brand_id', 'type_id', 'tag_id'];
+    protected $guarded = [];
 
     public static function generateSlug($name){
         return Str::slug($name, '-');
@@ -26,7 +26,11 @@ class Product extends Model
         return $this->belongsToMany(Tag::class);
     }
 
-    public function type():BelongsTo{
-        return $this->belongsTo(Type::class);
+    public function category():BelongsTo{
+        return $this->belongsTo(Category::class);
+    }
+
+    public function texture():BelongsTo{
+        return $this->belongsTo(Texture::class);
     }
 }

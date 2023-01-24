@@ -25,13 +25,13 @@ class StoreProductRequest extends FormRequest
     {
         return [
             
-            'name' => 'required|unique:products|max:150|min:3',
+            'name' => 'required|max:150|min:3',
             'image' => 'nullable',
             'description' => 'nullable',
             'price' => 'required',
-            'brand_id' => 'nullable|exists:brand,id',
-            'type_id' => 'nullable|exists:type,id',
-            'tag_id' => 'nullable|exists:tag,id'
+            'brand_id' => 'nullable|exists:brands,id',
+            'texture_id' => 'nullable|exists:textures,id',
+            'category_id' => 'nullable|exists:categories,id'
         ];
     }
 
@@ -40,8 +40,7 @@ class StoreProductRequest extends FormRequest
         return [
             'name.required' => 'Il nome è obbligatorio.',
             'name.min' => 'Il name deve essere lungo almeno :min caratteri.',
-            'name.max' => 'Il name non può superare i :max caratteri.',
-            'name.unique:products' => 'Il name esiste già'
+            'name.max' => 'Il name non può superare i :max caratteri.'
         ];
     }
 }

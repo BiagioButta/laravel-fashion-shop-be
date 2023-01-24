@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,10 +25,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             BrandTableSeeder::class,
-            ColorTableSeeder::class,
-            ProductTableSeeder::class,
+            TextureTableSeeder::class,
+            CategoryTableSeeder::class,
             TagTableSeeder::class,
-            TextureTableSeeder::class
+            ProductTableSeeder::class,
         ]);
     }
 }

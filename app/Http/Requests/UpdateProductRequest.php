@@ -29,9 +29,9 @@ class UpdateProductRequest extends FormRequest
             'image' => ['nullable'],
             'description' => ['nullable'],
             'price' => ['required'],
-            'brand_id' => 'nullable|exists:brand,id',
-            'type_id' => 'nullable|exists:type,id',
-            'tag_id' => 'nullable|exists:tag,id'    
+            'brand_id' => 'nullable|exists:brands,id',
+            'texture_id' => 'nullable|exists:textures,id',
+            'category_id' => 'nullable|exists:categories,id',
         ];
     }
 }

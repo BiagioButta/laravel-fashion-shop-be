@@ -22,15 +22,15 @@ class ProductTableSeeder extends Seeder
         foreach($products as $product){
             $new_product = new Product();
             $new_product->name = $product['name'];
-            $new_product->slug = Str::slug($product->name, '-');
+            $new_product->slug = Str::slug($product['name'], '-');
             $new_product->image = ProductTableSeeder::storeimage($product['api_featured_image']);
             $new_product->description = $product['description'];
             $new_product->product_link = $product['product_link'];
             $new_product->price = $product['price'];
             $new_product->available = $faker->boolean();
-            $new_product->type_id = $product['type_id'];
-            $new_product->tag_id = $product['tag_id'];
             $new_product->brand_id = $product['brand_id'];
+            $new_product->texture_id = $product['texture_id'];
+            $new_product->category_id = $product['category_id'];
 
             $new_product->save();
         }
