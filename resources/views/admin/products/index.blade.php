@@ -40,7 +40,7 @@
                     <td>{{$product->category ? $product->category->name : 'Nos category'}}</td>
                     <td>{{$product->available}}</td>
                     <td><a class="link-secondary" href="{{ route('admin.products.edit', $product->slug) }}"
-                            title="Edit product"><i class="fa-solid fa-pen"></i></a></td>
+                            title="Edit product">edit</a></td>
                     <td>
                         <form action="{{ route('admin.products.destroy', $product->slug) }}" method="POST">
                             @csrf
@@ -53,5 +53,6 @@
             @endforeach
         </tbody>
     </table>
+  
     @include('partials.admin.modal-delete')
 @endsection
