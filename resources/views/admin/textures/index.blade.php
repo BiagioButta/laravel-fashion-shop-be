@@ -4,8 +4,8 @@
 
     <ul>
 
-        @foreach ($categories as $category)
-            <li>{{$category->name}}</li>
+        @foreach ($textures as $texture)
+            <li>{{$texture->name}}</li>
         @endforeach
 
     </ul>

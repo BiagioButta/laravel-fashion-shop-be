@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Texture;
 use Illuminate\Http\Request;
 
 class TextureController extends Controller
@@ -14,7 +15,9 @@ class TextureController extends Controller
      */
     public function index()
     {
-        //
+        $textures = Texture::all();
+        // dd($brands);
+        return view('admin.textures.index', compact('textures'));
     }
 
     /**
