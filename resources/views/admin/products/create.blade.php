@@ -19,7 +19,8 @@
 
                 <div class="mb-3">
                     <label for="image" class="form-label">Image</label>
-                    <input type="file" name="image" id="image" class="form_control" @error('image') is-invalid @enderror>
+                    <input type="file" name="image" id="image" class="form_control"
+                        @error('image') is-invalid @enderror>
                     @error('image')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -32,7 +33,7 @@
 
                 <div class="mb-3">
                     <label for="product_link" class="form-label">Product_link</label>
-                    <input type="url" name="product_link" id="product_link" required>
+                    <input type="text" name="product_link" id="product_link" required>
                 </div>
 
                 <div class="mb-3">
@@ -44,8 +45,9 @@
                     <label for="brand_id" class="form-label">Select brand</label>
                     <select name="brand_id" id="brand_id" class="form_control" required>
                         <option value="">Select</option>
-                        @foreach($brands as $brand)
-                            <option value="{{$brand->id}}" {{ $brand->id == old('brand_id') ? 'selected' : '' }}>{{$brand->name}}</option>
+                        @foreach ($brands as $brand)
+                            <option value="{{ $brand->id }}" {{ $brand->id == old('brand_id') ? 'selected' : '' }}>
+                                {{ $brand->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -54,8 +56,9 @@
                     <label for="texture_id" class="form-label">Select texture</label>
                     <select name="texture_id" id="texture_id" class="form_control" required>
                         <option value="">Select</option>
-                        @foreach($textures as $texture)
-                            <option value="{{$texture->id}}" {{ $texture->id == old('texture_id') ? 'selected' : '' }}>{{$texture->name}}</option>
+                        @foreach ($textures as $texture)
+                            <option value="{{ $texture->id }}" {{ $texture->id == old('texture_id') ? 'selected' : '' }}>
+                                {{ $texture->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -64,8 +67,9 @@
                     <label for="category_id" class="form-label">Select category</label>
                     <select name="category_id" id="category_id" class="form_control" required>
                         <option value="">Select</option>
-                        @foreach($categories as $category)
-                            <option value="{{$category->id}}" {{ $category->id == old('category_id') ? 'selected' : '' }}>{{$category->name}}</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ $category->id == old('category_id') ? 'selected' : '' }}>{{ $category->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -73,10 +77,22 @@
                 <div class="mb-3">
                     <label for="available" class="form-label">Available</label>
                     <input type="radio" name="available" value="1" checked>
-                        <span class="text-capitalize">yes</span>
-                    <input type="radio" name="available" value="0" >
-                        <span class="text-capitalize">no</span>
+                    <span class="text-capitalize">yes</span>
+                    <input type="radio" name="available" value="0">
+                    <span class="text-capitalize">no</span>
                 </div>
+
+                @foreach ($tags as $tag)
+                    @if (old('tags'))
+                        <input type="checkbox" name="tags[]" value="{{ $tag->id }}"
+                            {{ in_array($tag->id, old('tags', [])) ? 'checked' : '' }}>
+                        <span class="text-capitalize">{{ $tag->name }}</span>
+                    @else
+                        <input type="checkbox" name="tags[]" value="{{ $tag->id }} "
+                            {{ old('tags', $product->tags) ? (old('tags', $product->tags)->contains($tag->id) ? 'checked' : '') : '' }}>
+                        <span class="text-capitalize">{{ $tag->name }}</span>
+                    @endif
+                @endforeach
 
                 {{-- <div class="mb-3">
                     <label for="tags" class="form-label">Select tag</label>
