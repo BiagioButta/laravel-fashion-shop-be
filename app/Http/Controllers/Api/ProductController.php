@@ -9,7 +9,7 @@ use App\Models\Product;
 class ProductController extends Controller
 {
     public function index() {
-        $products = Product::with('brand','texture', 'category', 'tag')->paginate(7);
+        $products = Product::with('brand','texture', 'category', 'tags')->paginate(7);
         return response()->json([
             'success' => true,
             'results' => $products
@@ -17,7 +17,7 @@ class ProductController extends Controller
     }
 
     public function show($slug){
-        $product = Product::with('brand','texture', 'category', 'tag')->where('slug', $slug)->first();
+        $product = Product::with('brand','texture', 'category', 'tags')->where('slug', $slug)->first();
         if($product){
             return response()->json([
                 'success' => true,
