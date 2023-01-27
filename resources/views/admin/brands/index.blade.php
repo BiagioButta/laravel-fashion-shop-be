@@ -32,5 +32,6 @@
         </tbody>
     </table>
     @include('partials.admin.modal-delete')
+    {{ $brands->links('vendor.pagination.bootstrap-5') }}
  
 @endsection

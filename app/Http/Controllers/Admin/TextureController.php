@@ -17,7 +17,7 @@ class TextureController extends Controller
      */
     public function index()
     {
-        $textures = Texture::all();
+        $textures = Texture::first()->paginate(10);
         // dd($brands);
         return view('admin.textures.index', compact('textures'));
     }

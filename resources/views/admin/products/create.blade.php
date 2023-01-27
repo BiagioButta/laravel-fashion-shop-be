@@ -43,7 +43,7 @@
 
                 <div class="mb-3">
                     <label for="price" class="form-label">Price</label>
-                    <input type="number" class="form_control " min="0.01" step="0.01">
+                    <input name="price" id="price" type="number" class="form_control " min="0.01" step="0.01">
                     @error('price')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

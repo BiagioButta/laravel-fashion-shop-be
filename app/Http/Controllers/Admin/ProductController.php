@@ -21,7 +21,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::first()->paginate(10);
 
         return view('admin.products.index', compact('products'));
         
@@ -147,6 +147,7 @@ class ProductController extends Controller
      *
      * 
      * @param \App\Models\Product $product
+     * @return \Illuminate\Http\Response
      */
     public function destroy(Product $product)
     {
