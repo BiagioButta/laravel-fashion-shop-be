@@ -18,7 +18,6 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -31,9 +30,8 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Product $product)
     {
         $brands = Brand::all();
         $textures = Texture::all();
@@ -41,6 +39,7 @@ class ProductController extends Controller
         $tags = Tag::all();
 
         return view('admin.products.create', compact('brands', 'textures', 'categories', 'tags'));
+
     }
 
     /**
@@ -66,6 +65,9 @@ class ProductController extends Controller
         }
 
         $new_product = Product::create($data);
+        if ($request->has('tags')) {
+            $new_product->tags()->attach($request->tags);
+        }
 
         if($request->has('tags')){
             $new_product->tags()->attach($request->tags);
