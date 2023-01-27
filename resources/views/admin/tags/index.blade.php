@@ -32,6 +32,7 @@
         </tbody>
     </table>
     @include('partials.admin.modal-delete')
+    {{ $tags->links('vendor.pagination.bootstrap-5') }}
  
 @endsection
 

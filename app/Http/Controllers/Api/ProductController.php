@@ -29,5 +29,5 @@ class ProductController extends Controller
                 'results' => 'Not Found'
             ]);
         }
-}
+    }
 }
