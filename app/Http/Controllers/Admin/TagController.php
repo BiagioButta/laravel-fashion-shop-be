@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreTagRequest;
+use App\Http\Requests\UpdateTagRequest;
 use Illuminate\Http\Request;
 use App\Models\Tag;
 
@@ -34,12 +36,18 @@ class TagController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreTagRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTagRequest $request)
     {
-        //
+        $data = $request->validated();
+        $slug = Tag::generateSlug($request->name);
+        $data['slug'] = $slug;
+
+        $new_tag = Tag::create($data);
+
+        return redirect()->back()->with('message', "$new_tag->name Upadated successfully");
     }
 
     /**
@@ -67,23 +75,31 @@ class TagController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\UpdateTagRequest  $request
+     * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTagRequest $request, Tag  $tag)
     {
-        //
+        $data = $request->validated();
+        $slug = Tag::generateSlug($request->name);
+        $data['slug'] = $slug;
+
+        $tag->update($data);
+
+        return redirect()->back()->with('message', "$tag->name updated successfully");
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Tag  $tag)
     {
-        //
+        $tag->delete();
+
+        return redirect()->back()->with('message', "$tag->name removed successfully");
     }
 }

@@ -22,7 +22,7 @@ class Product extends Model
         return $this->belongsTo(Brand::class);
     }
 
-    public function tag():BelongsToMany{
+    public function tags():BelongsToMany{
         return $this->belongsToMany(Tag::class);
     }
 
