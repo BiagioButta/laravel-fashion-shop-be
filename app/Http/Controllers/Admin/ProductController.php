@@ -69,9 +69,6 @@ class ProductController extends Controller
             $new_product->tags()->attach($request->tags);
         }
 
-        if($request->has('tags')){
-            $new_product->tags()->attach($request->tags);
-        }
 
        
         return redirect()->route('admin.products.index', $new_product->slug)->with('massage', "$new_product->name updated successfully");
