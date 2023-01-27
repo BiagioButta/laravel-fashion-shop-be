@@ -8,12 +8,11 @@
             {{ session()->get('message') }}
         </div>
     @endif
-    <table class="table table-striped">
+    <table class="table">
         <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
-                <th scope="col">Image</th>
                 <th scope="col">Description</th>
                 <th scope="col">Product link</th>
                 <th scope="col">Price</th>
@@ -29,18 +28,16 @@
             @foreach ($products as $product)
                 <tr>
                     <th scope="row">{{ $product->id }}</th>
-                    <td><a href="{{ route('admin.products.show', $product->slug) }}"
-                            title="View product">{{ $product->name }}</a></td>
-                    <td></td>
+                    <td><a href="{{ route('admin.products.show', $product->slug) }}"title="View product">{{ $product->name }}</a></td>
                     <td>{{ Str::limit($product->description, 50) }}</td>
                     <td><a href="{{$product->product_link}}">{{Str::limit($product->product_link, 20)}}</a></td>
                     <td>{{$product->price}}</td>
-                    <td>{{$product->brand ? $product->brand->name : 'Nos brand'}}</td>
-                    <td>{{$product->texture ? $product->texture->name : 'Nos texture'}}</td>
-                    <td>{{$product->category ? $product->category->name : 'Nos category'}}</td>
+                    <td>{{$product->brand ? $product->brand->name : 'No brand'}}</td>
+                    <td>{{$product->texture ? $product->texture->name : 'No texture'}}</td>
+                    <td>{{$product->category ? $product->category->name : 'No category'}}</td>
                     <td>{{$product->available}}</td>
                     <td><a class="link-secondary" href="{{ route('admin.products.edit', $product->slug) }}"
-                            title="Edit product">edit</a></td>
+                            title="Edit product"><i class="fa-solid fa-pen"></i></a></td>
                     <td>
                         <form action="{{ route('admin.products.destroy', $product->slug) }}" method="POST">
                             @csrf
@@ -53,6 +50,6 @@
             @endforeach
         </tbody>
     </table>
-  
+    {{-- {{ $products->links('vendor.pagination.bootstrap-5') }} --}}
     @include('partials.admin.modal-delete')
 @endsection

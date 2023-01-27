@@ -38,17 +38,21 @@ class ProductController extends Controller
         $categories = Category::all();
         $tags = Tag::all();
 
-        return view('admin.products.create', compact('product','brands', 'textures', 'categories','tags'));
+        return view('admin.products.create', compact('brands', 'textures', 'categories', 'tags'));
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreProductRequest  $request
+     * @return \Illuminate\Http\Response
      * 
      */
     public function store(StoreProductRequest $request)
     {
+
+        // dd($request);
         $data = $request->validated();
 
         $slug = Product::generateSlug($request->name);
@@ -65,15 +69,19 @@ class ProductController extends Controller
             $new_product->tags()->attach($request->tags);
         }
 
+        if($request->has('tags')){
+            $new_product->tags()->attach($request->tags);
+        }
+
        
-        return redirect()->route('admin.products.show', $new_product->slug);
+        return redirect()->route('admin.products.index', $new_product->slug)->with('massage', "$new_product->name updated successfully");
 
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Product  $product
      * 
      */
     public function show(Product $product)
@@ -84,7 +92,7 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Product  $product
      * 
      */
     public function edit(Product $product)
@@ -92,15 +100,17 @@ class ProductController extends Controller
         $brands = Brand::all();
         $textures = Texture::all();
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('admin.products.edit', compact('product', 'brands', 'textures', 'categories'));
+        return view('admin.products.edit', compact('product', 'brands', 'textures', 'categories', 'tags'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\UpdateProductRequest  $request
+     * @param  \App\Models\Product  $product
      * 
      */
     public function update(UpdateProductRequest $request, Product $product)
@@ -120,11 +130,11 @@ class ProductController extends Controller
 
         $product->update($data);
 
-        // if($request->has('tags')){
-        //     $product->tags()->sync($request->tags);
-        // } else {
-        //     $product->tags()->sync([]);
-        // }
+        if($request->has('tags')){
+            $product->tags()->sync($request->tags);
+        } else {
+            $product->tags()->sync([]);
+        }
 
         
 
@@ -141,6 +151,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
+        
         return redirect()->route('admin.products.index')->with('message', "$product->name deleted successfully");
     }
 }

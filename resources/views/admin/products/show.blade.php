@@ -7,6 +7,7 @@
     <p>{{$product->description}}</p>
     <p><a href="{{$product->product_link}}">{{$product->product_link}}</a></p>
     <p>{{$product->price}}</p>
+    <p>{{$product->tags}}</p>
     <p>{{$product->brand->name}}</p>
     <p>{{$product->texture->name}}</p>
     <p>{{$product->category->name}}</p>

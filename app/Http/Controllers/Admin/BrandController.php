@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreBrandRequest;
+use App\Http\Requests\UpdateBrandRequest;
 use Illuminate\Http\Request;
 use App\Models\Brand;
 
@@ -27,62 +29,77 @@ class BrandController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.brands.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreBrandRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBrandRequest $request)
     {
-        //
+        $data = $request->validated();
+        $slug = Brand::generateSlug($request->name);
+        $data['slug'] = $slug;
+
+        $new_brand = Brand::create($data);
+
+        return redirect()->route('admin.brands.index', $new_brand->slug);
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Brand  $brand
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Brand  $brand)
     {
-        //
+        return view('admin.brands.show',compact('brands'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Brand  $brand
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Brand  $brand)
     {
-        //
+        return view('admin.brands.edit',compact('brand'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\UpdateBrandRequest  $request
+     * @param  \App\Models\Brand  $brand
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateBrandRequest $request, Brand  $brand)
     {
-        //
+        $data = $request->validated();
+        $slug = Brand::generateSlug($request->name);
+        $data['slug'] = $slug;
+
+        $brand->update($data);
+
+        return redirect()->route('admin.brands.index')->with('message', "$brand->name updated successfully");
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Brand  $brand
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Brand  $brand)
     {
-        //
+        $brand->delete();
+
+        return redirect()->route('admin.brands.index')->with('message', "$brand->name deleted successfully");
     }
 }
